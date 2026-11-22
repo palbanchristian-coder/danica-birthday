@@ -1,5 +1,3 @@
-
-// Random comforting reminders
 window.homeMessages = [
   "You have already made it through so many new beginnings. Be proud of how far you've come.",
   "Even on the days you feel far away, remember that you are thought of, appreciated, and cheered on.",
