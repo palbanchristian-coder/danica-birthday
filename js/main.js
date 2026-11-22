@@ -1,89 +1,304 @@
+
 document.addEventListener("DOMContentLoaded", () => {
+
+  // =================================
+  // BASIC SELECTORS
+  // =================================
+
   const $ = (selector) => document.querySelector(selector);
+
   const toast = $("#toast");
   let toastTimer;
+
   function showToast(message) {
+    if (!toast) return;
+
     toast.textContent = message;
     toast.classList.add("show");
+
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => toast.classList.remove("show"), 2600);
+
+    toastTimer = setTimeout(() => {
+      toast.classList.remove("show");
+    }, 2600);
   }
 
-  // Mobile navigation
+
+  // =================================
+  // MOBILE NAVIGATION
+  // =================================
+
   const menuToggle = $("#menuToggle");
   const navigation = $("#navigation");
-  menuToggle.addEventListener("click", () => {
-    const isOpen = navigation.classList.toggle("open");
-    menuToggle.setAttribute("aria-expanded", String(isOpen));
-  });
-  navigation.querySelectorAll("a").forEach(link => link.addEventListener("click", () => {
-    navigation.classList.remove("open");
-    menuToggle.setAttribute("aria-expanded", "false");
-  }));
 
-  // Birthday candle interaction
+  if (menuToggle && navigation) {
+
+    menuToggle.addEventListener("click", () => {
+
+      const isOpen = navigation.classList.toggle("open");
+
+      menuToggle.setAttribute("aria-expanded", String(isOpen));
+
+    });
+
+    navigation.querySelectorAll("a").forEach(link => {
+
+      link.addEventListener("click", () => {
+
+        navigation.classList.remove("open");
+
+        menuToggle.setAttribute("aria-expanded", "false");
+
+      });
+
+    });
+
+  }
+
+
+  // =================================
+  // BIRTHDAY CANDLE INTERACTION
+  // =================================
+
   const cake = $("#interactiveCake");
   const wishButton = $("#wishButton");
   const cakeHint = $("#cakeHint");
+
   function makeWish() {
+
+    if (!cake || !cakeHint || !wishButton) return;
+
     const blown = cake.classList.toggle("blown");
+
     cakeHint.textContent = blown
       ? "Your wish is on its way. May this year be kind to you! ♡"
       : "Your candle is glowing again. Make another wish!";
-    wishButton.textContent = blown ? "Light the candle again ✨" : "Make a wish & blow the candle ✨";
+
+    wishButton.textContent = blown
+      ? "Light the candle again ✨"
+      : "Make a wish & blow the candle ✨";
+
     if (blown) {
+
       confettiBurst();
+
       showToast("A little birthday wish just for you, Ma'am Danica! ♡");
-    }
-  }
-  cake.addEventListener("click", makeWish);
-  cake.addEventListener("keydown", e => {
-    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); makeWish(); }
-  });
-  wishButton.addEventListener("click", makeWish);
 
-  // Lightweight confetti made with DOM elements
+    }
+
+  }
+
+  if (cake) {
+
+    cake.addEventListener("click", makeWish);
+
+    cake.addEventListener("keydown", e => {
+
+      if (e.key === "Enter" || e.key === " ") {
+
+        e.preventDefault();
+
+        makeWish();
+
+      }
+
+    });
+
+  }
+
+  if (wishButton) {
+
+    wishButton.addEventListener("click", makeWish);
+
+  }
+
+
+  // =================================
+  // CONFETTI ANIMATION
+  // =================================
+
   function confettiBurst() {
-    const colors = ["#e9a9bd", "#c9b9e2", "#f4c98d", "#f4dce5", "#b7cbb4"];
+
+    const colors = [
+      "#e9a9bd",
+      "#c9b9e2",
+      "#f4c98d",
+      "#f4dce5",
+      "#b7cbb4"
+    ];
+
     for (let i = 0; i < 34; i++) {
+
       const piece = document.createElement("span");
-      piece.style.cssText = `position:fixed;z-index:100;top:42%;left:${35 + Math.random()*30}%;width:7px;height:10px;background:${colors[i % colors.length]};border-radius:2px;pointer-events:none;`;
+
+      piece.style.cssText = `
+        position: fixed;
+        z-index: 100;
+        top: 42%;
+        left: ${35 + Math.random() * 30}%;
+        width: 7px;
+        height: 10px;
+        background: ${colors[i % colors.length]};
+        border-radius: 2px;
+        pointer-events: none;
+      `;
+
       document.body.appendChild(piece);
-      const x = (Math.random() - .5) * 520;
+
+      const x = (Math.random() - 0.5) * 520;
+
       const y = 250 + Math.random() * 260;
-      piece.animate([
-        { transform: "translate(0,0) rotate(0deg)", opacity: 1 },
-        { transform: `translate(${x}px,${y}px) rotate(${Math.random()*720}deg)`, opacity: 0 }
-      ], { duration: 1100 + Math.random()*700, easing: "cubic-bezier(.2,.7,.3,1)" }).onfinish = () => piece.remove();
+
+      piece.animate(
+        [
+          {
+            transform: "translate(0,0) rotate(0deg)",
+            opacity: 1
+          },
+          {
+            transform: `translate(${x}px,${y}px) rotate(${Math.random() * 720}deg)`,
+            opacity: 0
+          }
+        ],
+        {
+          duration: 1100 + Math.random() * 700,
+          easing: "cubic-bezier(.2,.7,.3,1)"
+        }
+      ).onfinish = () => piece.remove();
+
     }
+
   }
 
-  // Letters from home
+
+  // =================================
+  // LETTERS FROM HOME
+  // =================================
+
   const letterPaper = $("#letterPaper");
   const letterTitle = $("#letterTitle");
   const letterText = $("#letterText");
+  const closeLetter = $("#closeLetter");
+
+  const homeLetters = [
+
+    {
+      title: "Dear Ma'am Danica,",
+
+      text: "If you are missing home today, I hope you remember that distance cannot erase the people and memories that make you feel loved. It's okay to miss familiar faces, food, places, and routines. Take your time, be gentle with yourself, and remember that you have people back home who are wishing you well."
+    },
+
+    {
+      title: "For a difficult day,",
+
+      text: "Teaching, adjusting to a different country, and building a life far from what is familiar takes courage. You do not have to make every day a perfect one. Take a breath, rest when you need to, and give yourself credit for showing up. Tomorrow is another chance."
+    },
+
+    {
+      title: "A little reminder,",
+
+      text: "Even when we are not nearby, you are not forgotten. I hope you find kind people to share a laugh with, places that slowly feel familiar, and little moments that make Indonesia feel more like a second home. You deserve friendship and warmth wherever life takes you."
+    },
+
+    {
+      title: "Just for your smile,",
+
+      text: "This is your reminder to smile, drink some water, eat something delicious, and do one little thing that makes you happy. You are appreciated not only for being a teacher, but simply for being you. Sending a big virtual hug!"
+    }
+
+  ];
+
   document.querySelectorAll("[data-letter]").forEach(button => {
+
     button.addEventListener("click", () => {
-      const letter = window.homeLetters[Number(button.dataset.letter)];
+
+      const index = Number(button.dataset.letter);
+
+      const letter = homeLetters[index];
+
+      if (!letter || !letterPaper || !letterTitle || !letterText) return;
+
       letterTitle.textContent = letter.title;
+
       letterText.textContent = letter.text;
+
       letterPaper.hidden = false;
-      letterPaper.scrollIntoView({ behavior: "smooth", block: "center" });
+
+      letterPaper.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
+
     });
-  });
-  $("#closeLetter").addEventListener("click", () => { letterPaper.hidden = true; });
 
-  // Random comforting reminders
+  });
+
+  if (closeLetter && letterPaper) {
+
+    closeLetter.addEventListener("click", () => {
+
+      letterPaper.hidden = true;
+
+    });
+
+  }
+
+
+  // =================================
+  // RANDOM COMFORTING REMINDERS
+  // =================================
+
   let previousMessage = -1;
-  $("#messageButton").addEventListener("click", () => {
-    const messages = window.homeMessages;
-    let index = Math.floor(Math.random() * messages.length);
-    if (messages.length > 1 && index === previousMessage) index = (index + 1) % messages.length;
-    previousMessage = index;
-    $("#randomMessage").textContent = messages[index];
-  });
 
-  // Audio note if the sample audio file has not been added
+  const messageButton = $("#messageButton");
+
+  const randomMessage = $("#randomMessage");
+
+  if (messageButton && randomMessage) {
+
+    messageButton.addEventListener("click", () => {
+
+      const messages = window.homeMessages || [];
+
+      if (messages.length === 0) {
+
+        showToast("Your reminders are not available yet. ♡");
+
+        return;
+
+      }
+
+      let index = Math.floor(Math.random() * messages.length);
+
+      if (messages.length > 1 && index === previousMessage) {
+
+        index = (index + 1) % messages.length;
+
+      }
+
+      previousMessage = index;
+
+      randomMessage.textContent = messages[index];
+
+    });
+
+  }
+
+
+  // =================================
+  // MUSIC PLAYER
+  // =================================
+
   const player = $("#musicPlayer");
-  player.addEventListener("error", () => showToast("Add your-song.mp3 to assets/music to enable the music player."));
+
+  if (player) {
+
+    player.addEventListener("error", () => {
+
+      showToast("The music file could not be loaded. Please check its location. ♡");
+
+    });
+
+  }
+
 });
