@@ -857,7 +857,7 @@ footer {
   opacity: 1;
   transform: translate(-50%, 0);
 }
-@media (max-width: 800px) {
+@media (max-width: 500px) {
   .section {
     padding: 75px 7vw;
   }
@@ -985,8 +985,128 @@ footer {
     width: 160px;
   }
   .photo-placeholder img {
-  width: 100%;
-  height: 100%;
+  width: 50%;
+  height: 50%;
   object-fit: cover;
   }
+}
+
+/* ==========================
+   FAMILY AND SOLO MEMORIES
+   These rules are outside all media queries.
+========================== */
+
+.gallery-section {
+    width: 100%;
+    padding: 55px 20px;
+    text-align: center;
+}
+
+.gallery-section .section-heading {
+    margin-bottom: 40px;
+}
+
+.gallery-section h3 {
+    margin-bottom: 25px;
+    color: #9b7294;
+}
+
+/* FAMILY PHOTOS */
+.family-memory {
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto 50px;
+}
+
+.family-frame {
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto 25px;
+    padding: 12px;
+    background: #fffaf5;
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.10);
+}
+
+.gallery-section .family-frame img {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    max-height: 230px;
+    object-fit: contain;
+    margin: 0 auto;
+}
+
+/* SOLO PHOTOS */
+.solo-memories {
+    width: 100%;
+    max-width: 680px;
+    margin: 0 auto;
+}
+
+.solo-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 15px;
+    width: 100%;
+}
+
+.solo-card {
+    min-width: 0;
+    padding: 9px 9px 14px;
+    background: #fffaf5;
+    border-radius: 7px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.10);
+}
+
+.gallery-section .solo-card img {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    max-height: 145px;
+    object-fit: contain;
+    margin: 0 auto;
+}
+
+.family-frame p,
+.solo-card p {
+    margin-top: 10px;
+    font-family: cursive;
+    color: #98758f;
+}
+
+.family-frame p { font-size: 13px; }
+.solo-card p { font-size: 12px; }
+
+/* TABLET */
+@media (max-width: 768px) {
+    .solo-gallery {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* MOBILE */
+@media (max-width: 480px) {
+    .gallery-section {
+        padding: 40px 12px;
+    }
+
+    .family-memory,
+    .family-frame {
+        max-width: 100%;
+    }
+
+    .gallery-section .family-frame img {
+        max-height: 190px;
+    }
+
+    .solo-gallery {
+        gap: 10px;
+    }
+
+    .gallery-section .solo-card img {
+        max-height: 120px;
+    }
 }
